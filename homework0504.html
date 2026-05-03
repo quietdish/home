@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,49 +8,121 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap"
+        rel="stylesheet">
 
     <style>
-
-        .nanum-gothic-coding-regular {
+        * {
             font-family: "Nanum Gothic Coding", monospace;
-            font-weight: 400;
             font-style: normal;
         }
 
         .nanum-gothic-coding-bold {
-            font-family: "Nanum Gothic Coding", monospace;
             font-weight: 700;
-            font-style: normal;
         }
 
         .welcome {
-            font-size: 24px;
+            font-size: 20px;
             line-height: 5px;
         }
 
-        .input {
+        .input p {
+            font-size: 14px;
+            margin-bottom: 5px;
+            line-height: 12px;
+            /* 행간 */
+        }
+
+        .text1 {
+            width: 240px;
+            /* 박스 넓이 */
+            height: 25px;
+            /* 박스 높이 */
+        }
+
+        input::placeholder {
+            display: inline-block;
+            transform: scale(0.8);
+            transform-origin: left center;
+        }
+
+        .text2, .text3 {
             font-size: 10px;
-            line-height: 5px;
+            display: inline-block;
+            transform: scale(0.74);
+            transform-origin: left center;
+            letter-spacing: -2px;
+            /* 자간 */
+            margin-right: -30px;
         }
 
+        .text2 {
+            text-decoration: underline;
+            font-size: 10px;
+            transform: scale(0.74);
+        }
+
+        .text3 {
+            margin-right: -5px;
+        }
+
+        .text4 {
+            text-decoration: underline;
+            font-size: 10px;
+            transform: scale(0.8);
+            text-align: center;
+            display: block;
+            width: 250px;
+            color: rgb(76, 141, 194);
+        }
+
+        .box {
+            background-color: rgba(0, 110, 255, 0.733);
+            width: 250px;
+            height: 35px;
+            border: none;
+        }
+
+        .text5 {
+            color: white;
+            font-size: 10px;            
+            transform: scale(0.5);
+        }
     </style>
 </head>
 
 <body>
 
     <div class="welcome">
-        <p class="nanum-gothic-coding-regular">지금 가입하시면</p>
-        <p class="nanum-gothic-coding-bold">웰컴쿠폰을 드려요!</p> 
+        <p>지금 가입하시면</p>
+        <p class="nanum-gothic-coding-bold">웰컴쿠폰을 드려요!</p>
     </div>
     <br>
-    <div class="input">
-        <p class="nanum-gothic-coding-regular">이메일</p>
-        <br>
-        <p class="nanum-gothic-coding-regular">이름 / 업체명</p>
-        <p class="nanum-gothic-coding-regular">비밀번호</p>
-        <p class="nanum-gothic-coding-regular">비밀번호 확인</p>
-    </div>
 
+        <div class="input">
+            <p>이메일</p>
+            <input class="text1" placeholder=" 이메일을 입력해주세요.">
+            <p>이름 / 업체명</p>
+            <input class="text1" placeholder=" 2자 이상 20자 이하">
+            <p>비밀번호</p>
+            <input class="text1" placeholder=" 영문 숫자 특수문자 조합 6-16자리">
+            <p>비밀번호 확인</p>
+            <input class="text1" placeholder=" 비밀번호를 다시 입력해주세요.">
+        </div><br>
+        <div>
+            <input type="checkbox"><span class="text2">개인정보수집이용안내</span><span class="text3">&nbsp;및</span><span
+                class="text2">&nbsp;약관</span>
+            <span class="text3">&nbsp;&nbsp;&nbsp;&nbsp;에 동의 합니다</span>
+        </div>
+        <br>
+
+        <button type="button" class="box">
+            <span class="text5">회원 가입하기</span>
+        </button>
+
+        <br>
+        <p class="text4">SNS로 간편하게 가입하기</p>
+    
 </body>
+
 </html>
