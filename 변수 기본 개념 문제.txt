@@ -1,0 +1,115 @@
+1. 변수 개변 및 규칙
+1] 변수란 : 데이터를 저장하는 메모리 공간
+2] 자료형 변경 : 불가능 X
+3] 숫자로 시작 : 불가능 X
+4] 변수명에 사용 가능한 특수문자 : _ , $
+5] 변수명에 공백 사용 : 불가능 X
+6] 변수명 대소문자 구분 : O
+7] 변수명 예약어 사용 : 불가능 X
+8] 올바른 변수명 : b) userName
+9] 사용 불가 변수명 : a) age b) _count ✔c) @mail d) $score
+10] 변수 사용 전 선언 필수 O
+11] 변수 선언 시 자료형 생략 : 가능 O
+12] 변수에 값을 대입할 때 사용하는 기호 : =
+13] int x =10; → 정수형 변수 x를 선언하고 10을 저장
+14] 동일명 변수를 한 블록 내에서 두 번 선언 : 불가능 X
+15] 변수명dms 의미있게 짓는 것이 좋다 O
+
+
+2. 변수 선언 및 초기화
+1] 올바른 변수 선언 : a) int num;
+2] int x = 5, y = 10; → 변수 선언 개수 : 2개
+3] int x, y, z = 10; → 초기화된 변수 개수 : 1개 (z)
+4] 변수 선언과 동시에 초기화하는 것 : 초기화
+5] double d = 10; → 가능 O (10.0으로 저장)
+6] int a = 10.5; 오류 여부 → O
+7] 다음 중 오류가 나는 선언은?
+   a) int x = 5; b) double y = 3.14; ✔c) boolean z = 1; (true/false만 가능)
+8] boolean flag = true; → 데이터 타입 : boolean
+9] String name = "Tom"; → 문자열 변수 선언 O
+10] 변수 선언 후 값 변경 : 가능 O
+
+11] 출력 결과 예측
+
+int a = 5;
+a = a + 2;
+System.out.println(a);
+
+→ 7
+
+12] 출력 결과 예측
+
+int x = 10;
+int y = x + 5;
+System.out.println(y);
+
+→ 15
+
+13] 다음 선언 중 잘못된 것은?
+a) int x = 10; ✔b) char y = "A"; → 작은따옴표 써야함 c) String z = "A"
+14] int month = 10, day = 30; → 출력: 오늘은 몇월 며칠? 10월 30일
+15] 변수 초기화는 반드시 선언 시에 해야한다 → X
+16] 변수 선언 후 다른 자료형으로 변경 가능 여부 : 불가 X
+17] int a = 1; double b = a; 오류 여부 → X (자동 형변환)
+
+
+3. 데이터 타입 이해
+1] 정수형 데이터 타입 중 기본형 : int
+2] 정수형 타입 4가지 : byte, short, int, long
+3] 실수형 데이터 타입 : float, double
+4] 문자를 표현하는 데이터 타입 : char
+5] char c = 65; 출력 → A
+6] boolean flag = (5 > 3); → true
+7] 문자열을 나타내는 클래스 : String
+8] byte의 값 범위 : =128 ~ 127
+9] short의 값 범위 : -32,768 ~ 32,767
+10] int의 기본 크기(byte) :  4
+11] double : 8byte
+
+
+4. 문자열과 문자 구분
+1] char타입은 ' '(작은따옴표)로 감싼다 : O
+2] String타입은 " "(큰따옴표)로 감싼다 : O
+3] 'A'와 "A"는 동일하다 : X
+4] String s = 'A'; 오류 여부 : O
+5] char c = "A"; 오류 여부 : O
+
+6] 코드 출력 결과 예측
+
+String name = "Tom";
+System.out.println("Hello " + name);
+
+→ Hello Tom
+
+7] 문자열 결합에 사용되는 연산자 : +
+8] "Hello" + "World" 결과 → HelloWorld
+9] "Hi" + 3 결과 → Hi3
+
+10] 코드 출력 결과 예측
+
+char c = 'B';
+System.out.println(c + 2);
+
+→ 68 ('B'는 66)
+
+
+5. 출력 및 형 변환
+1] System.out.println() 의 역할 : 출력 후 줄바꿈
+2] System.out.print() 와 차이점 : 줄바꿈 안함
+3] System.out.printf() 용도 : 형식(포맷) 지정 출력
+4] int x = 10; System.out.printf("%d", x); 출력 → 10
+5] double pi = 3.14159; System.out.printf("%.2f", pi); 출력 → 3.14
+6] int a = 10; double b = a; 는 묵시적 형 변환인가 : O
+7] double d = 3.9; int n = (int)d; → n의 값은? → 3
+8] char c = 'A'; int code = c; → code의 값은? → 65
+9] int a = 5; String s = a; (직접 대입) 가능 여부 → X
+10] String s = String.valueOf(5); → s 의 값은? → 5
+11] Integer.parseInt("10") + 1 의 결과는? → 11
+12] Double.parseDouble("3.14") + 1 의 결과 → 4.14
+13] String s = "100"; int n = Integer.parseInt(s); → n의 값은? → 100
+14] "10" + 20 의 결과는 문자열인가 : O
+15] "10" + 20 출력 결과 → 1020
+16] int x = (int)10.5; 결과 → 10
+17] (double)5 / 2 결과 → 2
+18] 5 / 2 결과 → 2
+10] 5 / 2.0 결과 → 2.5
