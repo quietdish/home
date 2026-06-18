@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>
+
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 빨간 글씨 .. 내용 추가 -->
+    <link rel="stylesheet" href="contact_with_me.css">
+    <!-- 반응형 p.569 -->
+    <link rel="stylesheet" href="media.css">
+    
+</head>
+
+<body>
+    <section id="contact" class="contact"> <!-- p.558 -->
+        <div class="container">
+            <div class="title">
+                <h4>CONTACT</h4>
+                <h2>Contact With Me</h2>
+            </div>
+        </div>
+        <!-- </section> 책에 있는데 여기 말고 /body 앞에 적어야함... -->
+
+        <div class="contact-me">
+
+            <!-- LEFT -->
+            <div class="left">
+
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-solid fa-phone-volume"></i>
+                    </div>
+                    <div class="info-text">
+                        <!-- email, address --> <!-- p.559 -->
+                        <h3>phone</h3>
+                        <p>010-2222-1111</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="icon">
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                    </div>
+                    <div class="info-text">
+                        <h3>email</h3>
+                        <p>sucoding@naver.com</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="info-text">
+                        <h3>address</h3>
+                        <p>Samseong-ro, Gangnam-gu,<br>
+                            Seoul, Republic of Korea</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- p.559 RIGHT -->
+            <div class="right">
+                <form action="#">
+                    <div class="form-group">
+                        <label for="name">name</label>
+                        <input type="text" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">email</label>
+                        <input type="text" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">message</label>
+                        <textarea id="msg"></textarea>
+                    </div>
+                    <button type="submit">send</button>
+                </form>
+            </div>
+
+
+
+        </div>
+    </section>
+</body>
+
+</html>
