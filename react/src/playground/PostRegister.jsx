@@ -1,4 +1,4 @@
-//상단은 초기설정 및 데이터 바구니 ( ~ 51line)
+//상단은 초기설정 및 데이터 바구니 ( ~ 59line)
 // -> 필요한 도구를 가져오고, 사용자가 입력할 데이터를 저장할 공간을 만듦.
 
 //state : 전체 페이지의 이미지 속의 UI를 실제로 작동하게 만드는 '두뇌'역할 중 상태들..
@@ -24,9 +24,13 @@ export default function PostRegister() {
 
     const fileInputRef = useRef(null);
 
-    const titleRef = useRef(null);  //물품입력창에 커서 바로 이동하게 추가..!
+    const titleRef = useRef(null);      //물품입력창에 커서 바로 이동하게 추가..!
 
     const categoryRef = useRef(null);  //카테고리 미선택시 바로 이동하게 추가..!
+
+    const priceRef = useRef(null);          //가격 미입력 검사 추가
+
+    const descriptionRef = useRef(null);    //상품 설명 미입력 검사 추가
 
     const [ images, setImages ] = useState([]);
 
@@ -55,7 +59,7 @@ export default function PostRegister() {
     const [ auctionDay, setAuctionDay ] = useState("3");
 
 
-    //이미지 업로드 로직 (58 ~ 101line)
+    //이미지 업로드 로직
     // "이미지 추가" 박스를 눌렀을 때 일어나는 ~
     const handleImageClick = () => {
         //실제 파일 선택창(input type="file") 159line ~ 디자인하기 어려워서 hidden으로 숨겨두고
@@ -103,13 +107,22 @@ export default function PostRegister() {
     };
 
 
-    // 검사 및 제출 로직 (103 ~ 127line)
+    // 검사 및 제출 로직
     const handleSubmit = (e) => {
         //"중고등록"버튼을 눌렀을 때 실행 됨.
         //물품명이 비어 있거나 카테고리를 선택하지 않았다면 alert 창을 띄워 사용자에게 알려줌.
 
         e.preventDefault();
 
+        // 이미지 검사
+        if (images.length === 0){
+
+            alert("상품 이미지를 등록하세요.");
+
+            return;
+        }
+
+        //물품명 검사
         if (title.trim() === "") {
 
             alert("물품명을 입력하세요.");
@@ -120,6 +133,17 @@ export default function PostRegister() {
 
         }
 
+        //가격 검사
+        if (price.trim() === "" || Number(price) <= 0){
+
+            alert("판매 가격은 0원보다 크게 입력하세요.");
+
+            priceRef.current.focus();
+
+            return;
+        }
+
+        //카테고리 검사
         if (category === "") {
 
             alert("카테고리를 선택하세요.");
@@ -130,12 +154,23 @@ export default function PostRegister() {
 
         }
 
+        //상품 설명 검사
+        if (description.trim() === "") {
+
+            alert("상품 설명을 입력하세요.");
+
+            descriptionRef.current.focus();
+
+            return;
+        }
+
+
         alert("등록 완료");
 
     };
 
 
-    //화면 구성 - 상단 및 이미지 섹션 (132 ~ 217line)
+    //화면 구성 - 상단 및 이미지 섹션
     // 실제 눈에 보이는 UI 구조
     return (
 
@@ -192,7 +227,7 @@ export default function PostRegister() {
                             {
 
                                 images.map((img, index) => (
-                                    //저장된 이미지 배열을 하나씩 꺼내서 화면에 미리보기 이미지와 삭제 버튼을 구현..
+                                //저장된 이미지 배열을 하나씩 꺼내서 화면에 미리보기 이미지와 삭제 버튼을 구현..
 
                                     <div
                                         key={index}
@@ -291,14 +326,17 @@ export default function PostRegister() {
 
                     {/* 가격 */}
                     <div className="form-group">
-                        <label className="form-label">판매 가격</label>
+                        <label className="form-label">판매 가격
+                            <span className="required">*</span>
+                        </label>
                         <div className="price-input-wrapper">
-                            <input
-                                type="number"
+                            <input type="number" 
                                 className="form-input price-input"
                                 placeholder="판매가격"
                                 value={price}
                                 onChange={(e) => setPrice(e.target.value)}
+
+                                ref={priceRef}  //가격 미입력 검사
                             />
                             <span className="price-unit">원</span>
                         </div>
@@ -369,22 +407,24 @@ export default function PostRegister() {
 
 
 
-                    {/* 상세 설명 */}
+                    {/* 상세 설명 (검사 *추가) */}
 
                     <div className="form-group">
 
                         <label className="form-label">
 
                             상품 설명
+                            <span className="required">*</span>
 
                         </label>
 
-                        <textarea
-                            className="form-input"
+                        <textarea className="form-input"
                             rows={8}
                             placeholder="상품 상태, 구성품, 구매 시기 등을 입력하세요."
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
+
+                            ref={descriptionRef}    //상품 설명 미입력 검사
                         />
 
                     </div>
@@ -437,9 +477,10 @@ export default function PostRegister() {
 
                     <div className="form-actions">
 
-                        <button
-                            type="button"
+                        <button type="button"
                             className="btn-cancel"
+                            onClick={() => navigate(-1)}
+                            // onClick={() => window.history.back()}
                         >
                             취소
                         </button>
