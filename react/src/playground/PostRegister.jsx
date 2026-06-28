@@ -196,7 +196,8 @@ export default function PostRegister() {
 
                     <div className="form-group">
 
-                        <label className="form-label" htmlFor="img-upload">
+                        <label className="form-label" htmlFor="img-upload"> 
+                            {/* htmlFor - 📸버튼 말고 '상품 이미지*' 글자를 눌러도 업로드창 띄워짐 */}
 
                             상품 이미지
 
