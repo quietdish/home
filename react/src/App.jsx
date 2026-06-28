@@ -1,5 +1,5 @@
 import News15 from './quiz/quiz0615/News15';
-import PostRegister from './pages/PostRegister';
+import PostRegister from './playground/PostRegister';
 
 function App() {
   return (
