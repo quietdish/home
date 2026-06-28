@@ -1,4 +1,11 @@
+//상단은 초기설정 및 데이터 바구니 ( ~ 51line)
+// -> 필요한 도구를 가져오고, 사용자가 입력할 데이터를 저장할 공간을 만듦.
+
+//state : 전체 페이지의 이미지 속의 UI를 실제로 작동하게 만드는 '두뇌'역할 중 상태들..
+
 import { useRef, useState } from "react";
+//useState : 화면의 글자나 이미지 목록처럼 변하는 데이터를 담는 상자.
+//useRef : HTML요소(숨겨진 파일 입력창)를 직접 가리킬 때 쓰는 집게..
 import "../csss/PostRegister.css";
 
 const categoryList = [
@@ -17,17 +24,21 @@ export default function PostRegister() {
 
     const fileInputRef = useRef(null);
 
+    const titleRef = useRef(null);  //물품입력창에 커서 바로 이동하게 추가..!
+
+    const categoryRef = useRef(null);  //카테고리 미선택시 바로 이동하게 추가..!
+
     const [ images, setImages ] = useState([]);
 
-    const [ title, setTitle ] = useState("");
+    const [ title, setTitle ] = useState("");   //상태변수들 - 각각의 상태로 관리 -> 한꺼번에 모아서 서버에 보낼 수 있음..
 
     const [ tradeType, setTradeType ] = useState("used");
 
-    const [ price, setPrice ] = useState("");
+    const [ price, setPrice ] = useState("");   //상태변수들
 
     const [ auctionPrice, setAuctionPrice ] = useState("");
 
-    const [ category, setCategory ] = useState("");
+    const [ category, setCategory ] = useState(""); //상태변수들
 
     const [ condition, setCondition ] = useState("");
 
@@ -44,8 +55,11 @@ export default function PostRegister() {
     const [ auctionDay, setAuctionDay ] = useState("3");
 
 
-
+    //이미지 업로드 로직 (58 ~ 101line)
+    // "이미지 추가" 박스를 눌렀을 때 일어나는 ~
     const handleImageClick = () => {
+        //실제 파일 선택창(input type="file") 159line ~ 디자인하기 어려워서 hidden으로 숨겨두고
+        // 디자인된 "이미지 추가" 박스를 클릭하면, 대신 파일창을 클릭해주는 함수..
 
         fileInputRef.current.click();
 
@@ -54,6 +68,7 @@ export default function PostRegister() {
 
 
     const handleImageUpload = (e) => {
+        //선택한 이미지들을 화면에 보여주기 위해 **URL.createObjectURL** 82line <- 이 기술을 씀
 
         const files = Array.from(e.target.files);
 
@@ -65,7 +80,9 @@ export default function PostRegister() {
 
         }
 
+        // const 들여쓴 이유~ URL. ..
         const preview = files.map(file => URL.createObjectURL(file));
+        //브라우저 메모리에 이미지를 임시로 올려서 주소를 만들어주는 기능
 
         setImages(prev => [ ...prev, ...preview ]);
 
@@ -76,22 +93,28 @@ export default function PostRegister() {
 
 
     const removeImage = (index) => {
+        // X 버튼을 누르면 이미지를 목록에서 지움.
 
         URL.revokeObjectURL(images[ index ]);
+        //메모리 낭비를 방지하기 위해 임시주소(생성했던)를 해제해 줌..
 
         setImages(images.filter((_, i) => i !== index));
 
     };
 
 
-
+    // 검사 및 제출 로직 (103 ~ 127line)
     const handleSubmit = (e) => {
+        //"중고등록"버튼을 눌렀을 때 실행 됨.
+        //물품명이 비어 있거나 카테고리를 선택하지 않았다면 alert 창을 띄워 사용자에게 알려줌.
 
         e.preventDefault();
 
         if (title.trim() === "") {
 
             alert("물품명을 입력하세요.");
+
+            titleRef.current.focus();   //빈칸 시 커서 이동
 
             return;
 
@@ -100,6 +123,8 @@ export default function PostRegister() {
         if (category === "") {
 
             alert("카테고리를 선택하세요.");
+
+            categoryRef.current.focus();    //커서 이동 (셀렉창 색깔만 바뀜, 드롭다운X)
 
             return;
 
@@ -110,7 +135,8 @@ export default function PostRegister() {
     };
 
 
-
+    //화면 구성 - 상단 및 이미지 섹션 (132 ~ 217line)
+    // 실제 눈에 보이는 UI 구조
     return (
 
         <div className="register-container">
@@ -119,7 +145,7 @@ export default function PostRegister() {
 
                 <h2 className="register-title">
 
-                    물품 등록
+                    중고 물품 등록
 
                 </h2>
 
@@ -135,7 +161,7 @@ export default function PostRegister() {
 
                     <div className="form-group">
 
-                        <label className="form-label">
+                        <label className="form-label" htmlFor="img-upload">
 
                             상품 이미지
 
@@ -143,10 +169,9 @@ export default function PostRegister() {
 
                         </label>
 
-                        <input
-                            type="file"
-                            multiple
-                            accept="image/*"
+                        <input id="img-upload" type="file"
+                            //인풋타입 .. handleImageUpload (55 line)
+                            multiple accept="image/*"
                             ref={fileInputRef}
                             onChange={handleImageUpload}
                             hidden
@@ -158,9 +183,8 @@ export default function PostRegister() {
                                 className="image-upload-box"
                                 onClick={handleImageClick}
                             >
-
-                                +<br />
-
+                                📸 <br />
+                                <br />
                                 이미지 추가
 
                             </div>
@@ -168,6 +192,7 @@ export default function PostRegister() {
                             {
 
                                 images.map((img, index) => (
+                                    //저장된 이미지 배열을 하나씩 꺼내서 화면에 미리보기 이미지와 삭제 버튼을 구현..
 
                                     <div
                                         key={index}
@@ -202,7 +227,7 @@ export default function PostRegister() {
 
 
 
-                    {/* 물품명 */}
+                    {/* label : "물품명*" 이라는 이름을 표시해줌. */}
 
                     <div className="form-group">
 
@@ -211,17 +236,19 @@ export default function PostRegister() {
                             <span className="required">*</span>
                         </label>
 
-                        <input
-                            type="text"
+                        <input type="text"  //input : 실제 글자를 입력하는 창
                             className="form-input"
-                            placeholder="상품명을 입력하세요."
-                            maxLength={60}
-                            value={title}
+                            placeholder="물품명을 입력하세요."
+                            maxLength={50}  //최대 50자 까지만 제한
+                            value={title}   //현재 입력된 글자를 title이라는 상태(State)에 담아 관리..
                             onChange={(e) => setTitle(e.target.value)}
+                                            //키보드를 누를 때마다 실시간으로 title 값을 업데이트함..
+                            ref={titleRef}  //물품명 빈칸일때 커서 이동
                         />
 
                         <div className="char-count">
-                            {title.length} / 60
+                            {title.length} / 50
+                            {/* 우측 하단에 현재 몇글자를 썼는지 숫자로 보여줌. */}
                         </div>
 
                     </div>
@@ -230,7 +257,7 @@ export default function PostRegister() {
 
                     {/* 거래방식 */}
 
-                    <div className="form-group">
+                    {/* <div className="form-group">
 
                         <label className="form-label">
 
@@ -257,186 +284,61 @@ export default function PostRegister() {
                             </button>
 
                         </div>
-
-                    </div>
+                        
+                    </div> */}
 
 
 
                     {/* 가격 */}
-
-                    {
-
-                        tradeType === "used"
-
-                            ?
-
-                            <div className="form-group">
-
-                                <label className="form-label">
-
-                                    판매 가격
-
-                                </label>
-
-                                <div className="price-input-wrapper">
-
-                                    <input
-                                        type="number"
-                                        className="form-input price-input"
-                                        placeholder="판매가격"
-                                        value={price}
-                                        onChange={(e) => setPrice(e.target.value)}
-                                    />
-
-                                    <span className="price-unit">
-
-                                        원
-
-                                    </span>
-
-                                </div>
-
-                                <label className="checkbox-label">
-
-                                    <input
-                                        type="checkbox"
-                                        checked={suggestPrice}
-                                        onChange={(e) => setSuggestPrice(e.target.checked)}
-                                    />
-
-                                    가격 제안 허용
-
-                                </label>
-
-                            </div>
-
-                            :
-
-                            <div className="auction-grid">
-
-                                <div>
-
-                                    <label className="form-label">
-
-                                        시작 가격
-
-                                    </label>
-
-                                    <div className="price-input-wrapper">
-
-                                        <input
-                                            type="number"
-                                            className="form-input price-input"
-                                            placeholder="경매 시작가"
-                                            value={auctionPrice}
-                                            onChange={(e) => setAuctionPrice(e.target.value)}
-                                        />
-
-                                        <span className="price-unit">
-
-                                            원
-
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-                                <div>
-
-                                    <label className="form-label">
-
-                                        입찰 단위
-
-                                    </label>
-
-                                    <select
-                                        className="form-input"
-                                        value={bidUnit}
-                                        onChange={(e) => setBidUnit(e.target.value)}
-                                    >
-
-                                        <option value="1000">1,000원</option>
-                                        <option value="5000">5,000원</option>
-                                        <option value="10000">10,000원</option>
-                                        <option value="50000">50,000원</option>
-
-                                    </select>
-
-                                </div>
-
-                                <div>
-
-                                    <label className="form-label">
-
-                                        경매 기간
-
-                                    </label>
-
-                                    <select
-                                        className="form-input"
-                                        value={auctionDay}
-                                        onChange={(e) => setAuctionDay(e.target.value)}
-                                    >
-
-                                        <option value="1">1일</option>
-                                        <option value="3">3일</option>
-                                        <option value="5">5일</option>
-                                        <option value="7">7일</option>
-
-                                    </select>
-
-                                </div>
-
-                            </div>
-
-                    }
+                    <div className="form-group">
+                        <label className="form-label">판매 가격</label>
+                        <div className="price-input-wrapper">
+                            <input
+                                type="number"
+                                className="form-input price-input"
+                                placeholder="판매가격"
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)}
+                            />
+                            <span className="price-unit">원</span>
+                        </div>
+                        <label className="checkbox-label">
+                            <input
+                                type="checkbox"
+                                checked={suggestPrice}
+                                onChange={(e) => setSuggestPrice(e.target.checked)}
+                            />
+                            가격 제안 허용
+                        </label>
+                    </div>
 
 
 
                     {/* 카테고리 */}
-
                     <div className="form-group">
-
                         <label className="form-label">
-
                             카테고리
-
                             <span className="required">*</span>
-
                         </label>
-
-                        <select
-                            className="form-input"
+                        <select className="form-input"
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
+                            ref={categoryRef}   //커서이동 추가
                         >
-
                             <option value="">
-
                                 카테고리를 선택하세요.
-
                             </option>
-
                             {
-
                                 categoryList.map(item => (
-
                                     <option
                                         key={item}
                                         value={item}
                                     >
-
                                         {item}
-
                                     </option>
-
                                 ))
-
                             }
-
                         </select>
-
                     </div>
 
 
