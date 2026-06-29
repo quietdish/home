@@ -5,7 +5,7 @@
 .register-container {
     max-width: 1100px;
     width: 95%;
-    
+
     margin: 40px auto;
     padding: 30px;
     background: #fff;
@@ -25,7 +25,7 @@
 }
 
 .required {
-    color: #00b86b;
+    color: orange;
 }
 
 /* ---------- 상단 ---------- */
@@ -69,7 +69,7 @@
 
 .image-upload-box:hover {
 
-    border-color: #10b981;
+    border-color: orange;
 }
 
 .preview-image-container {
@@ -137,7 +137,7 @@
 .form-input:focus {
 
     outline: none;
-    border-color: #00b86b;
+    border-color: orange;
 }
 
 .char-count {
@@ -150,38 +150,8 @@
     margin-top: 5px;
 }
 
-/* ---------- 거래방식 ---------- */
 
-.button-group {
 
-    display: flex;
-    gap: 15px;
-}
-
-.btn-trade {
-
-    flex: 1;
-
-    height: 48px;
-
-    border: 1px solid #ddd;
-
-    border-radius: 8px;
-
-    background: white;
-
-    cursor: pointer;
-
-    font-weight: bold;
-}
-
-.btn-trade.active {
-
-    background: #10b981;
-    color: white;
-
-    border-color: #10b981;
-}
 
 /* ---------- 가격 ---------- */
 
@@ -207,16 +177,6 @@
     color: #666;
 }
 
-/* ---------- 경매 ---------- */
-
-.auction-grid {
-
-    display: grid;
-
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 20px;
-}
 
 /* ---------- 체크 ---------- */
 
@@ -259,13 +219,22 @@ textarea.form-input {
     height: 50px;
 
     border: 1px solid #ccc;
-
     background: white;
+    color: #333;
+
+    font-size: 16px;
+    font-weight: bold;
 
     border-radius: 8px;
 
     cursor: pointer;
 }
+
+.btn-cancel:hover {
+
+    background: white;
+}
+
 
 .btn-submit {
 
@@ -274,7 +243,7 @@ textarea.form-input {
 
     border: none;
 
-    background: #10b981;
+    background: orange;
 
     color: white;
 
@@ -288,7 +257,16 @@ textarea.form-input {
 
 .btn-submit:hover {
 
-    background: #0f9c6c;
+    background: darkorange;
+}
+
+
+.error-alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    width: 320px;
 }
 
 
@@ -324,13 +302,24 @@ textarea.form-input {
 
     .form-actions {
 
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: center;
+
     }
 
-    .btn-cancel,
     .btn-submit {
 
-        width: 100%;
+        width: 150px;
+        height: 50px;
+    }
+
+    .btn-cancel {
+        width: 100px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
     }
 
 }

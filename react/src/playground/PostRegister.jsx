@@ -4,6 +4,7 @@
 //state : 전체 페이지의 이미지 속의 UI를 실제로 작동하게 만드는 '두뇌'역할 중 상태들..
 
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 //useState : 화면의 글자나 이미지 목록처럼 변하는 데이터를 담는 상자.
 //useRef : HTML요소(숨겨진 파일 입력창)를 직접 가리킬 때 쓰는 집게..
 import "../csss/PostRegister.css";
@@ -19,10 +20,11 @@ const categoryList = [
     "서적",
     "굿즈",
     "헬스",
-    "기타",
 ];
 
 export default function PostRegister() {
+
+    const navigate = useNavigate();
 
     const fileInputRef = useRef(null);
 
@@ -30,35 +32,31 @@ export default function PostRegister() {
 
     const categoryRef = useRef(null);  //카테고리 미선택시 바로 이동하게 추가..!
 
-    const priceRef = useRef(null);          //가격 미입력 검사 추가
+    const imageRef = useRef(null);      //이미지 미등록시 검사
+
+    const priceRef = useRef(null);      //가격 미입력 검사 추가
 
     const descriptionRef = useRef(null);    //상품 설명 미입력 검사 추가
 
-    const [ images, setImages ] = useState([]);
+    const [images, setImages] = useState([]);
 
-    const [ title, setTitle ] = useState("");   //상태변수들 - 각각의 상태로 관리 -> 한꺼번에 모아서 서버에 보낼 수 있음..
+    const [title, setTitle] = useState("");   //상태변수들 - 각각의 상태로 관리 -> 한꺼번에 모아서 서버에 보낼 수 있음..
 
-    const [ tradeType, setTradeType ] = useState("used");
+    const [price, setPrice] = useState("");   //상태변수들
 
-    const [ price, setPrice ] = useState("");   //상태변수들
+    const [category, setCategory] = useState(""); //상태변수들
 
-    const [ auctionPrice, setAuctionPrice ] = useState("");
+    const [condition, setCondition] = useState("");
 
-    const [ category, setCategory ] = useState(""); //상태변수들
+    const [description, setDescription] = useState("");
 
-    const [ condition, setCondition ] = useState("");
+    const [shipping, setShipping] = useState(false);    //즉시거래
 
-    const [ description, setDescription ] = useState("");
+    const [chattrade, setChatTrade] = useState(false);  //채팅
 
-    const [ location, setLocation ] = useState("");
+    const [suggestPrice, setSuggestPrice] = useState(false);
 
-    const [ shipping, setShipping ] = useState(false);
-
-    const [ suggestPrice, setSuggestPrice ] = useState(false);
-
-    const [ bidUnit, setBidUnit ] = useState("1000");
-
-    const [ auctionDay, setAuctionDay ] = useState("3");
+    // const [error, setError] = useState("");
 
 
     //이미지 업로드 로직
@@ -90,7 +88,7 @@ export default function PostRegister() {
         const preview = files.map(file => URL.createObjectURL(file));
         //브라우저 메모리에 이미지를 임시로 올려서 주소를 만들어주는 기능
 
-        setImages(prev => [ ...prev, ...preview ]);
+        setImages(prev => [...prev, ...preview]);
 
         e.target.value = "";
 
@@ -101,7 +99,7 @@ export default function PostRegister() {
     const removeImage = (index) => {
         // X 버튼을 누르면 이미지를 목록에서 지움.
 
-        URL.revokeObjectURL(images[ index ]);
+        URL.revokeObjectURL(images[index]);
         //메모리 낭비를 방지하기 위해 임시주소(생성했던)를 해제해 줌..
 
         setImages(images.filter((_, i) => i !== index));
@@ -117,9 +115,16 @@ export default function PostRegister() {
         e.preventDefault();
 
         // 이미지 검사
-        if (images.length === 0){
+        if (images.length === 0) {
 
-            alert("상품 이미지를 등록하세요.");
+            imageRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+            setTimeout(() => {
+                alert("상품 이미지를 등록하세요.");
+            }, 100);
 
             return;
         }
@@ -127,20 +132,34 @@ export default function PostRegister() {
         //물품명 검사
         if (title.trim() === "") {
 
-            alert("물품명을 입력하세요.");
+            titleRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
 
             titleRef.current.focus();   //빈칸 시 커서 이동
+
+            setTimeout(() => {
+                alert("물품명을 입력하세요.");
+            }, 100);
 
             return;
 
         }
 
         //가격 검사
-        if (price.trim() === "" || Number(price) <= 0){
+        if (price.trim() === "" || Number(price) <= 0) {
 
-            alert("판매 가격은 0원보다 크게 입력하세요.");
+            priceRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
 
             priceRef.current.focus();
+
+            setTimeout(() => {
+                alert("판매 가격은 0원보다 크게 입력하세요.");
+            }, 100);
 
             return;
         }
@@ -148,9 +167,16 @@ export default function PostRegister() {
         //카테고리 검사
         if (category === "") {
 
-            alert("카테고리를 선택하세요.");
+            categoryRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            })
 
             categoryRef.current.focus();    //커서 이동 (셀렉창 색깔만 바뀜, 드롭다운X)
+
+            setTimeout(() => {
+                alert("카테고리를 선택하세요.");
+            }, 100);
 
             return;
 
@@ -159,13 +185,19 @@ export default function PostRegister() {
         //상품 설명 검사
         if (description.trim() === "") {
 
-            alert("상품 설명을 입력하세요.");
+            descriptionRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            })
 
             descriptionRef.current.focus();
 
+            setTimeout(() => {
+                alert("상품 설명을 입력하세요.");
+            }, 100);
+
             return;
         }
-
 
         alert("등록 완료");
 
@@ -193,12 +225,20 @@ export default function PostRegister() {
 
                 </p>
 
+
+                {/* bootstrap alert */}
+                {/* {error && (
+                    <div className="alert alert-danger error-alert" role="alert">
+                        {error}
+                    </div>
+                )} */}
+
                 <form onSubmit={handleSubmit}>
 
 
                     <div className="form-group">
 
-                        <label className="form-label" htmlFor="img-upload"> 
+                        <label className="form-label" htmlFor="img-upload">
                             {/* htmlFor - 📸버튼 말고 '상품 이미지*' 글자를 눌러도 업로드창 띄워짐 */}
 
                             상품 이미지
@@ -220,6 +260,7 @@ export default function PostRegister() {
                             <div
                                 className="image-upload-box"
                                 onClick={handleImageClick}
+                                ref={imageRef}          //이미지 커서이동
                             >
                                 📸 <br />
                                 <br />
@@ -230,7 +271,7 @@ export default function PostRegister() {
                             {
 
                                 images.map((img, index) => (
-                                //저장된 이미지 배열을 하나씩 꺼내서 화면에 미리보기 이미지와 삭제 버튼을 구현..
+                                    //저장된 이미지 배열을 하나씩 꺼내서 화면에 미리보기 이미지와 삭제 버튼을 구현..
 
                                     <div
                                         key={index}
@@ -280,7 +321,7 @@ export default function PostRegister() {
                             maxLength={50}  //최대 50자 까지만 제한
                             value={title}   //현재 입력된 글자를 title이라는 상태(State)에 담아 관리..
                             onChange={(e) => setTitle(e.target.value)}
-                                            //키보드를 누를 때마다 실시간으로 title 값을 업데이트함..
+                            //키보드를 누를 때마다 실시간으로 title 값을 업데이트함..
                             ref={titleRef}  //물품명 빈칸일때 커서 이동
                         />
 
@@ -333,7 +374,7 @@ export default function PostRegister() {
                             <span className="required">*</span>
                         </label>
                         <div className="price-input-wrapper">
-                            <input type="number" 
+                            <input type="number"
                                 className="form-input price-input"
                                 placeholder="판매가격"
                                 value={price}
@@ -343,14 +384,15 @@ export default function PostRegister() {
                             />
                             <span className="price-unit">원</span>
                         </div>
-                        <label className="checkbox-label">
+
+                        {/* <label className="checkbox-label">
                             <input
                                 type="checkbox"
                                 checked={suggestPrice}
                                 onChange={(e) => setSuggestPrice(e.target.checked)}
                             />
                             가격 제안 허용
-                        </label>
+                        </label> */}
                     </div>
 
 
@@ -388,7 +430,7 @@ export default function PostRegister() {
 
                     {/* 상품 상태 */}
 
-                    <div className="form-group">
+                    {/* <div className="form-group">
 
                         <label className="form-label">
                             상품 상태
@@ -406,7 +448,7 @@ export default function PostRegister() {
                             <option value="used">사용감 많음</option>
                         </select>
 
-                    </div>
+                    </div> */}
 
 
 
@@ -436,7 +478,7 @@ export default function PostRegister() {
 
                     {/* 거래 지역 */}
 
-                    <div className="form-group">
+                    {/* <div className="form-group">
 
                         <label className="form-label">
 
@@ -452,38 +494,59 @@ export default function PostRegister() {
                             onChange={(e) => setLocation(e.target.value)}
                         />
 
-                    </div>
+                    </div> */}
 
 
 
-                    {/* 택배 여부 */}
+                    {/* 거래 형식 체크박스 */}
+                    <label className="form-label">
 
-                    <div className="form-group">
+                        거래 형식
+                        <span className="required">*</span>
 
-                        <label className="checkbox-label">
+                    </label>
 
-                            <input
-                                type="checkbox"
-                                checked={shipping}
-                                onChange={(e) => setShipping(e.target.checked)}
-                            />
 
-                            택배 거래 가능
 
+                    {/* 즉시거래 / 채팅 */}
+                    <div className="form-check form-switch">
+
+
+                        <input className="form-check-input"
+                            type="checkbox"
+                            checked={chattrade}
+                            onChange={(e) => setChatTrade(e.target.checked)}
+                        />
+                        <label className="form-check-label">
+                            즉시 거래
                         </label>
 
                     </div>
 
 
+                    <div className="form-check form-switch">
 
-                    {/* 버튼 */}
+                        <input className="form-check-input"
+                            type="checkbox"
+                            checked={shipping}
+                            onChange={(e) => setShipping(e.target.checked)}
+                        />
+
+                        <label className="form-check-label">
+                            구매자와 대화
+                        </label>
+
+                    </div>
+
+
+                    {/* 취소 / 등록 버튼 */}
 
                     <div className="form-actions">
 
                         <button type="button"
                             className="btn-cancel"
-                            onClick={() => navigate(-1)}
-                            // onClick={() => window.history.back()}
+                            onClick={() => navigate("/")}
+                        // onClick={() => window.history.back()}
                         >
                             취소
                         </button>
@@ -492,9 +555,7 @@ export default function PostRegister() {
                             type="submit"
                             className="btn-submit"
                         >
-                            {tradeType === "used"
-                                ? "중고 등록"
-                                : "경매 등록"}
+                            중고 등록
                         </button>
 
                     </div>
@@ -506,5 +567,4 @@ export default function PostRegister() {
         </div>
 
     );
-
-}                                        
+}
