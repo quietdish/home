@@ -1,102 +1,159 @@
-/* p.565 */
-
+/* p.566 */
 /* 화면 너비가 1140px 이하일 때 */
-@media screen and (max-width:1140px) {
+@media screen and (max-width: 1140px) {
+  /* 메인 영역 container 기준 너비 변경 */
+  main .container {
+    width: 992px;   /* 1140px -> 992px */
+  }
 
-    /* 메인 영역 container 기준 너비 변경 */
-    main .container {
-        width: 992px;
-        /* 1140px -> 992px */
-    }
+  /* 섹션 영역 container 기준 너비 변경 - 2단으로 처리하기 위한 적정 너비 */
+  section .container {
+    width: 600px;
+    /* 1140px -> 600px */
+  }
 
-    /* 섹션 영역 container 기준 너비 변경 - 2단으로 처리하기 위한 적정 너비 */
-    section .container {
-        width: 600px;
-        /* 1140px -> 600px */
-    }
+  /* p.568 */
+  section .do-me .do-inner {
+    width: 48%;
+    /* 본문 사각형 너비 30% -> 48% 변경 */
+    margin-bottom: 1.5rem;
+    /* 본문 사각형 사이 간격 지정 */
+    margin-right: 0;
+    /* 외부 여백 초기화*/
+  }
 
+  section .do-me .do-inner:nth-child(2n + 1) {
+    margin-right: 4%; /* 1, 3, 5... 번째 본문 사각형에 margin-right 4% 적용 */
+  }
 
-    /* p.567 */
-    /* About Me 영역 왼쪽 너비 50% -> 100% 변경 */
-    section .about-self .left {
-        width: 100%;
-        margin-bottom: 1.5rem;
-    }
+/* p.567 */
+/* About Me 영역 왼쪽 너비 50% -> 100% 변경 */
+  section .about-self .left {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
 
-    /* About Me 영역 오른쪽 너비 50% -> 100% 변경 */
-    section .about-self .right {
-        width: 100%;
-        padding: 0;
-    }
+  /* About Me 영역 오른쪽 너비 50% -> 100% 변경 */
+  section .about-self .right {
+    width: 100%;
+    padding: 0;
+  }
 
+  /* 반응형 p.569 */
+  section .portfolio-me .portfolio-inner {
+    width: 48%;
+    /* 본문 사각형 너비 30% -> 48% 변경 */
+    margin-right: 0;
+    /* 외부 여백 초기화 */
+  }
 
-    /* p.568 */
-    .section .do-me .do-inner {
-        width: 48%;
-        /* 본문 사각형 너비 30% -> 48% 변경 */
-        margin-bottom: 1.5rem;
-        /* 본문 사각형 사이 간격 지정 */
-        margin-right: 0;
-        /* 외부 여백 초기화*/
-    }
+  section .portfolio-me .portfolio-inner:nth-child(2n + 1) {
+    margin-right: 4%; /* 1, 3, 5... 번째 본문 사각형에 margin-right 4% 적용 */
+  }
 
-    .section .do-me .do-inner:nth-child(2n+1) {
-        margin-right: 4%;   /* 1, 3, 5... 번째 본문 사각형에 margin-right 4% 적용 */
-    }
+  /* 반응형 p.569 */
+  section.contact .contact-me .left {
+    width: 100%; /* 너비 변경 30% -> 100% */
+  }
 
-
-    /* 반응형 p.569 */
-    section .portfolio-me .portfolio-inner {
-        width: 48%;
-        /* 본문 사각형 너비 30% -> 48% 변경 */
-        margin-right: 0;
-        /* 외부 여백 초기화 */
-    }
-
-    section .portfolio-me .portfolio-inner:nth-child(2n+1) {
-        margin-right: 4%; /* 1, 3, 5... 번째 본문 사각형에 margin-right 4% 적용 */
-    }
-
-
-    /* 반응형 p.569 */
-    .section.contact .contact-me .left{
-        width:100%; /* 너비 변경 30% -> 100% */
-    }
-
-    .section.contact .contact-me .right{
-        width:100%; /* 너비 변경 65% -> 100% */
-        margin-left: 0; /* 외부 여백 초기화 */
-    }
-
+  section.contact .contact-me .right {
+    width: 100%; /* 너비 변경 65% -> 100% */
+    margin-left: 0; /* 외부 여백 초기화 */
+  }
 }
 
 
+
+
+
+
+/* p.565 */
 /* 화면 너비가 992px 이하일 때 */
-@media screen and (max-width:992px) {
-    html {
-        font-size: 14px;
-    }
+@media screen and (max-width: 992px) {
+  html {
+    font-size: 14px;
+  }
+
+/* p.570 */
+  /* 메인 영역 container 기준 너비 변경 */
+  main .container{
+    width: 768px;   /* 992px -> 768px */
+  }
+
+  section .portfolio-me .portfolio-inner{
+    width: 100%;    /* 48% -> 100% 변경 */
+  }
 }
 
+
+
+/* p.571 */
 /* 화면 너비가 768px 이하일 때 */
-@media screen and (max-width:768px) {
-    html {
-        font-size: 13px;
-    }
+@media screen and (max-width: 768px) {
+  html {
+    font-size: 13px;
+  }
+
+  /* 메인 영역 container 기준 너비 변경 */
+  main .container{
+    width: 576px;   /* 768px -> 576px */
+  }
+
+  section .container{
+    width: 400px;   /* 600px -> 400px */
+  }
+
+  section .do-me .do-inner{
+    width: 100%;    /* 48% -> 100% */
+    margin-right: 0;  /* 외부 여백 초기화 */
+  }
 }
 
 
-/* p. 566 */
+
+
+/* p.566 */
 /* 화면 너비가 576px 이하일 때 */
-@media screen and (max-width:576px) {
-    html {
-        font-size: 12px;
-    }
+@media screen and (max-width: 576px) {
+  html {
+    font-size: 12px;
+  }
+
+  /* p.571 */
+  main .container{
+    width: 400px;   /* 576px -> 400px */
+  }
+
+  section .container{
+    width: 360px;   /* 400px -> 360px */
+  }
 }
+
+
+
 
 /* 화면 너비가 400px 이하일 때 */
-@media screen and (max-width:400px) {
-    html {
-        font-size: 11px;
-    }
+@media screen and (max-width: 400px) {
+  html {
+    font-size: 11px;
+  }
+
+
+  /* p.572 */
+  main .container{
+    width: 320px;   /* 400px -> 320px */
+  }
+
+  section .container{
+    width: 320px;   /* 360px -> 320px */
+  }
+
+  main h4 {
+    font-size: 1.5rem;
+  }
+
+  section .title h2{
+    font-size: 3rem;    /* 3.5rem -> 3rem */
+  }
+
 }
