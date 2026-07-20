@@ -89,8 +89,9 @@ select * from student;
 select count(*)             --7
 from professor p
 left join student s          --오른쪽 테이블 살림. 교수 모두 조회.
-on p.profno = s.profno
+on p.profno = s.profno          -- >> 학생이 연결되지않은 교수만 남김.
 where s.studno is null;           --학생 번호가 없다 = 학생이 한명도 연결 안됐다
+
 
 select p.profno, p.name
 from professor p
